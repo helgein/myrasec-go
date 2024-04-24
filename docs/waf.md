@@ -34,8 +34,8 @@ type Rule struct {
 | `Sync` | bool | ... |
 | `ProcessNext` | bool | After a rule has been applied, the rule chain will be executed as determined. |
 | `Enabled` | bool | Describes if the rule is enabled or not |
-| `Actions` | []WAFAction | List of WAF actions |
-| `Conditions` | []WAFCondition | List of WAF conditions |
+| `Actions` | *[]WAFAction | List of WAF actions |
+| `Conditions` | *[]WAFCondition | List of WAF conditions |
 
 ```go
 type WAFAction struct {
@@ -127,12 +127,46 @@ if err != nil {
 }
 ```
 
+WAFRules can also be fetched for a single subdomain.
+
+### Example
+
+```go
+rules, err := api.ListWAFRules(domainId, map[string]string{
+	"subDomain": "www.example.com",
+})
+if err != nil {
+    log.Fatal(err)
+}
+```
+
 ## Read
 The read operation returns an object of WAFRule for the given ruleId
+
+### Example
 ```go
 rule, err := api.FetchWAFRule(ruleId)
 if err != nil {
     log.Fatal(err)
+}
+```
+
+An easy way to access the actions/conditions of a WAF Rule is to range over them:
+
+### Example
+
+```go
+rule, err := api.FetchWAFRule(ruleId)
+if err != nil {
+	log.Fatal(err)
+}
+
+for _, action := range rule.Actions {
+	// ...
+}
+
+for _, condition := range rule.Conditions {
+	// ...
 }
 ```
 
