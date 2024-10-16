@@ -54,6 +54,7 @@ type TagWAFRule struct {
 	Description   string          `json:"description"`
 	Direction     string          `json:"direction"`
 	LogIdentifier string          `json:"logIdentifier"`
+	Uuid          string          `json:"uuid"`
 	Sort          int             `json:"sort"`
 	Sync          bool            `json:"sync"`
 	ProcessNext   bool            `json:"processNext"`
